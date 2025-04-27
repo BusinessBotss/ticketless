@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Ticket Booking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      background: #121212;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .lang-switcher {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    .lang-btn {
+      background: none;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s, color 0.3s;
+    }
+    .lang-btn:hover, .lang-btn.active {
+      background: #fff;
+      color: #121212;
+    }
+    .container, .fake-payment {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(255,255,255,0.05);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      animation: fadeUp 0.8s ease forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+    select, input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: none;
+      background: #2c2c2c;
+      color: #fff;
+      font-size: 1rem;
+    }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: #000;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #333;
+    }
+    .price-display {
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+    #paymentScreen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+    <button class="lang-btn" onclick="switchLang('es')">ES</button>
+    <button class="lang-btn" onclick="switchLang('de')">DE</button>
+  </div>
+
+  <div id="mainScreen" class="container">
+    <h1 id="title">Book Your Ticket</h1>
+    <select id="ticketType">
+      <option value="15">Standard Ticket - €15 (Entrance only)</option>
+      <option value="30">VIP Ticket - €30 (Entrance + 1 drink)</option>
+      <option value="table1">Standard Table - €150 (4 pax, 1 bottle included)</option>
+      <option value="table2">Premium Table - €250 (6 pax, 2 bottles included)</option>
+      <option value="table3">VIP Table - €400 (10 pax, 3 bottles included)</option>
+      <option value="table4">Ultra VIP Table - €600 (12 pax, 4 bottles + priority entrance)</option>
+    </select>
+
+    <input type="text" id="promoCode" placeholder="Enter Promo Code">
+
+    <div class="price-display" id="priceInfo"></div>
+
+    <button class="btn" onclick="payNow()" id="payButton">Pay Now</button>
+    <button class="btn" onclick="joinList()" id="listButton">Join Free List</button>
+  </div>
+
+  <div id="paymentScreen" class="fake-payment">
+    <h1>✔️ Payment Successful</h1>
+    <p>Thank you! Your booking is confirmed.<br>Amount: 0€</p>
+    <button class="btn" onclick="goHome()">Back to Home</button>
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        title: "Book Your Ticket",
+        payButton: "Pay Now",
+        listButton: "Join Free List"
+      },
+      es: {
+        title: "Reserva Tu Entrada",
+        payButton: "Pagar Ahora",
+        listButton: "Unirse a la Lista Gratis"
+      },
+      de: {
+        title: "Buche Dein Ticket",
+        payButton: "Jetzt Bezahlen",
+        listButton: "Kostenlos auf die Liste"
+      }
+    };
+
+    function switchLang(lang) {
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`[onclick="switchLang('${lang}')"]`).classList.add('active');
+      document.getElementById('title').textContent = translations[lang].title;
+      document.getElementById('payButton').textContent = translations[lang].payButton;
+      document.getElementById('listButton').textContent = translations[lang].listButton;
+    }
+
+    function payNow() {
+      document.getElementById('mainScreen').style.display = 'none';
+      document.getElementById('paymentScreen').style.display = 'flex';
+    }
+
+    function joinList() {
+      const message = encodeURIComponent("Hello! I would like to join the free guest list for the event.");
+      window.open(`https://wa.me/34631690524?text=${message}`, '_blank');
+    }
+
+    function goHome() {
+      document.getElementById('paymentScreen').style.display = 'none';
+      document.getElementById('mainScreen').style.display = 'block';
+    }
+
+    document.getElementById('ticketType').addEventListener('change', function() {
+      const value = this.value;
+      let priceText = '';
+      switch (value) {
+        case '15': priceText = "Standard Ticket - €15 (Entrance only)"; break;
+        case '30': priceText = "VIP Ticket - €30 (Entrance + 1 drink)"; break;
+        case 'table1': priceText = "Standard Table - €150 (4 pax, 1 bottle included)"; break;
+        case 'table2': priceText = "Premium Table - €250 (6 pax, 2 bottles included)"; break;
+        case 'table3': priceText = "VIP Table - €400 (10 pax, 3 bottles included)"; break;
+        case 'table4': priceText = "Ultra VIP Table - €600 (12 pax, 4 bottles + priority entrance)"; break;
+      }
+      document.getElementById('priceInfo').textContent = priceText;
+    });
+
+    document.getElementById('ticketType').dispatchEvent(new Event('change'));
+  </script>
+</body>
+</html>
