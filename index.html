@@ -82,7 +82,7 @@
     }
     .price-display {
       margin-bottom: 20px;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
     #paymentScreen {
       display: none;
@@ -103,12 +103,12 @@
   <div id="mainScreen" class="container">
     <h1 id="title">Book Your Ticket</h1>
     <select id="ticketType">
-      <option value="15">Standard Ticket - €15 (Entrance only)</option>
-      <option value="30">VIP Ticket - €30 (Entrance + 1 drink)</option>
-      <option value="table1">Standard Table - €150 (4 pax, 1 bottle included)</option>
-      <option value="table2">Premium Table - €250 (6 pax, 2 bottles included)</option>
-      <option value="table3">VIP Table - €400 (10 pax, 3 bottles included)</option>
-      <option value="table4">Ultra VIP Table - €600 (12 pax, 4 bottles + priority entrance)</option>
+      <option value="15">Entry - €15 (includes 1 drink)</option>
+      <option value="30">VIP Entry - €30 (includes 2 drinks + priority access)</option>
+      <option value="table1">Standard Table - €150 (4 people, 1 bottle)</option>
+      <option value="table2">Premium Table - €250 (6 people, 2 bottles)</option>
+      <option value="table3">VIP Table - €400 (10 people, 3 bottles)</option>
+      <option value="table4">Ultra VIP Table - €600 (12 people, 4 bottles + private area)</option>
     </select>
 
     <input type="text" id="promoCode" placeholder="Enter Promo Code">
@@ -121,7 +121,7 @@
 
   <div id="paymentScreen" class="fake-payment">
     <h1>✔️ Payment Successful</h1>
-    <p>Thank you! Your booking is confirmed.<br>Amount: 0€</p>
+    <p id="paymentMessage">Thank you! Your booking is confirmed.<br>Amount: 0€</p>
     <button class="btn" onclick="goHome()">Back to Home</button>
   </div>
 
@@ -135,12 +135,12 @@
       es: {
         title: "Reserva Tu Entrada",
         payButton: "Pagar Ahora",
-        listButton: "Unirse a la Lista Gratis"
+        listButton: "Apuntarse Gratis en Lista"
       },
       de: {
-        title: "Buche Dein Ticket",
+        title: "Ticket Buchen",
         payButton: "Jetzt Bezahlen",
-        listButton: "Kostenlos auf die Liste"
+        listButton: "Kostenlos Auf Liste"
       }
     };
 
@@ -171,12 +171,12 @@
       const value = this.value;
       let priceText = '';
       switch (value) {
-        case '15': priceText = "Standard Ticket - €15 (Entrance only)"; break;
-        case '30': priceText = "VIP Ticket - €30 (Entrance + 1 drink)"; break;
-        case 'table1': priceText = "Standard Table - €150 (4 pax, 1 bottle included)"; break;
-        case 'table2': priceText = "Premium Table - €250 (6 pax, 2 bottles included)"; break;
-        case 'table3': priceText = "VIP Table - €400 (10 pax, 3 bottles included)"; break;
-        case 'table4': priceText = "Ultra VIP Table - €600 (12 pax, 4 bottles + priority entrance)"; break;
+        case '15': priceText = "Entry - €15 (includes 1 drink)"; break;
+        case '30': priceText = "VIP Entry - €30 (includes 2 drinks + priority access)"; break;
+        case 'table1': priceText = "Standard Table - €150 (4 people, 1 bottle)"; break;
+        case 'table2': priceText = "Premium Table - €250 (6 people, 2 bottles)"; break;
+        case 'table3': priceText = "VIP Table - €400 (10 people, 3 bottles)"; break;
+        case 'table4': priceText = "Ultra VIP Table - €600 (12 people, 4 bottles + private area)"; break;
       }
       document.getElementById('priceInfo').textContent = priceText;
     });
